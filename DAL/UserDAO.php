@@ -12,7 +12,7 @@ class UserDAO
             $fileName = $user->getEmail() . ".txt";
 
             if (!$this->verifyIfFileExists($fileName)) {
-                $fullDirectory = $this->createFullDirectory($fileName);
+                $fullDirectory = $this->getFullDirectory($fileName);
 
                 $fileOpen = fopen($fullDirectory, "w");
 
@@ -35,9 +35,32 @@ class UserDAO
         }
     }
 
+    public function getUser(string $pEmail)
+    {
+        if ($this->verifyIfFileExists($pEmail)) {
+            $directory = $this->getFullDirectory($pEmail);
+            $fileOpen = fopen($directory, "r");
+
+            $file = fread($fileOpen, filesize($directory));
+            $arrData = explode(";", $file);
+
+            $user = new User();
+            $user->setName($arrData[0]);
+            $user->setEmail($arrData[1]);
+            $user->setPassword($arrData[2]);
+            $user->setDate($arrData[3]);
+
+            //var_dump($user);
+
+            fclose($fileOpen);
+        } else {
+            return null;
+        }
+    }
+
     public function verifyIfFileExists(string $pFileName)
     {
-        $fullDirectory = $this->directory . "/" . $pFileName;
+        $fullDirectory = $this->getFullDirectory($pFileName);
 
         if (file_exists($fullDirectory))
             return true;
@@ -45,7 +68,7 @@ class UserDAO
             return false;
     }
 
-    public function createFullDirectory(string $pFileName)
+    public function getFullDirectory(string $pFileName)
     {
         return $this->directory . "/" . $pFileName;
     }

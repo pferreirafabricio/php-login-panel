@@ -2,11 +2,14 @@
 require_once("Model/User.php");
 require_once("Controller/UserController.php");
 
-$msg = "";
+$userController = new UserController();
+echo $userController->getUser("olagente@gmail.com.txt");
+
+//$msg = "";
 
 if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
     $user = new User();
-    $userController = new UserController();
+
 
     $user->setName(filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING));
     $user->setEmail(filter_input(INPUT_POST, "txtEmailRegister", FILTER_SANITIZE_STRING));

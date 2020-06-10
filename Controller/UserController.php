@@ -23,4 +23,13 @@ class UserController
             return "Please, fill all inputs!";
         }
     }
+
+    public function getUser(string $pUser)
+    {
+        if (strpos($pUser, "@") > 0 && strpos($pUser, ".") > 0) {
+            return $this->userDAO->getUser($pUser);
+        } else {
+            return "Invalid email!";
+        }
+    }
 }
