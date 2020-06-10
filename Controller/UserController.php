@@ -32,4 +32,16 @@ class UserController
             return "Invalid email!";
         }
     }
+
+    public function Authorization(string $pEmail, string $pPassword)
+    {
+        if (
+            (strpos($pEmail, "@") > 0 && strpos($pEmail, ".") > 0) &&
+            (strlen($pPassword) > 0)
+        ) {
+            return $this->userDAO->Authorization($pEmail, $pPassword);
+        } else {
+            return null;
+        }
+    }
 }

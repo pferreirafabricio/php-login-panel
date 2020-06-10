@@ -2,26 +2,31 @@
 require_once("Model/User.php");
 require_once("Controller/UserController.php");
 
-$userController = new UserController();
-echo $userController->getUser("olagente@gmail.com.txt");
+$msg = "";
 
-//$msg = "";
+$userController = new UserController();
+//echo $userController->getUser("olagente@gmail.com.txt");
 
 if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
     $user = new User();
 
-
     $user->setName(filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING));
     $user->setEmail(filter_input(INPUT_POST, "txtEmailRegister", FILTER_SANITIZE_STRING));
-    $user->setPassword(filter_input(INPUT_POST, "txtPasswordRegister", FILTER_SANITIZE_STRING));
+    $user->setPassword(md5(filter_input(INPUT_POST, "txtPasswordRegister", FILTER_SANITIZE_STRING)));
     $user->setDate(date("Y-m-d H:i:s"));
 
     $result = $userController->Register($user);
     $msg = $result;
+}
 
-    $_POST["txtName"] = "";
-    $_POST["txtEmailRegister"] = "";
-    $_POST["txtPasswordRegister"] = "";
+if (filter_input(INPUT_POST, "txtEmailLogin", FILTER_SANITIZE_STRING)) {
+    $email = filter_input(INPUT_POST, "txtEmailLogin", FILTER_SANITIZE_STRING);
+    $password = filter_input(INPUT_POST, "txtPasswordLogin", FILTER_SANITIZE_STRING);
+
+    if ($userController->Authorization($email, $password) != null)
+        header("Location: panel.php");
+    else
+        $msg = "Password or email don't match!";
 }
 ?>
 
@@ -44,15 +49,15 @@ if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
                     <div class="card card-signin my-5">
                         <div class="card-body" id="form-login" style="display: block;">
                             <h5 class="card-title text-center">Sign In</h5>
-                            <form>
+                            <form method="POST">
                                 <div class="form-label-group mb-3">
                                     <label for="txtEmailLogin">Email address</label>
-                                    <input type="email" id="txtEmailLogin" class="form-control" placeholder="Email address" required autofocus>
+                                    <input type="email" name="txtEmailLogin" id="txtEmailLogin" class="form-control" placeholder="Email address" required autofocus autocomplete>
                                 </div>
 
                                 <div class="form-label-group mb-3">
                                     <label for="txtPasswordLogin">Password</label>
-                                    <input type="password" id="txtPasswordLogin" class="form-control" placeholder="Password" required>
+                                    <input type="password" name="txtPasswordLogin" id="txtPasswordLogin" class="form-control" placeholder="Password" required>
                                 </div>
 
                                 <button class="btn btn-primary btn-block text-uppercase" type="submit">Sign in</button>
@@ -84,7 +89,6 @@ if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
                     <div class="alert alert-info mt-5">
                         <?php
                         echo $msg;
-                        $msg = "";
                         ?>
                     </div>
                 </div>

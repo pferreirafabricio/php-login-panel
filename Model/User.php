@@ -29,7 +29,7 @@ class User
 
     public function setPassword($pPassword)
     {
-        $this->password = md5($pPassword);
+        $this->password = $pPassword;
     }
 
     public function getPassword()

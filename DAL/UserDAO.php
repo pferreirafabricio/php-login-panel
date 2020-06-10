@@ -6,6 +6,21 @@ class UserDAO
     private $debug = true;
     private $directory = "Files";
 
+    public function getFullDirectory(string $pFileName)
+    {
+        return $this->directory . "/" . $pFileName;
+    }
+
+    public function verifyIfFileExists(string $pFileName)
+    {
+        $fullDirectory = $this->getFullDirectory($pFileName);
+
+        if (file_exists($fullDirectory))
+            return true;
+        else
+            return false;
+    }
+
     public function register(User $user)
     {
         try {
@@ -51,25 +66,25 @@ class UserDAO
             $user->setDate($arrData[3]);
 
             //var_dump($user);
-
             fclose($fileOpen);
+            return $user;
         } else {
             return null;
         }
     }
 
-    public function verifyIfFileExists(string $pFileName)
+    public function Authorization(string $pEmail, string $pPassword)
     {
-        $fullDirectory = $this->getFullDirectory($pFileName);
-
-        if (file_exists($fullDirectory))
-            return true;
-        else
-            return false;
-    }
-
-    public function getFullDirectory(string $pFileName)
-    {
-        return $this->directory . "/" . $pFileName;
+        $fileName = "{$pEmail}.txt";
+        if ($this->verifyIfFileExists($fileName)) {
+            $user = $this->getUser($fileName);
+            if ($user->getPassword() === md5($pPassword)) {
+                return $user;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 }
