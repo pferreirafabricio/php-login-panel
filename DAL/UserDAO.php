@@ -20,13 +20,13 @@ class UserDAO
 
                 if (fwrite($fileOpen, $str)) {
                     fclose($fileOpen);
-                    return 0;
+                    return "User succesfully registered!";
                 } else {
                     fclose($fileOpen);
-                    return 1;
+                    return "An error occurred while registering the user...";
                 }
             } else {
-                return 1;
+                return "User already registered!";
             }
         } catch (Exception $ex) {
             if ($this->debug) {

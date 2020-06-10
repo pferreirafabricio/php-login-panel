@@ -20,8 +20,7 @@ class UserController
         ) {
             return $this->userDAO->Register($pUser);
         } else {
-            echo "Error in user register!";
-            return 1;
+            return "Please, fill all inputs!";
         }
     }
 }

@@ -1,3 +1,27 @@
+<?php
+require_once("Model/User.php");
+require_once("Controller/UserController.php");
+
+$msg = "";
+
+if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
+    $user = new User();
+    $userController = new UserController();
+
+    $user->setName(filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING));
+    $user->setEmail(filter_input(INPUT_POST, "txtEmailRegister", FILTER_SANITIZE_STRING));
+    $user->setPassword(filter_input(INPUT_POST, "txtPasswordRegister", FILTER_SANITIZE_STRING));
+    $user->setDate(date("Y-m-d H:i:s"));
+
+    $result = $userController->Register($user);
+    $msg = $result;
+
+    $_POST["txtName"] = "";
+    $_POST["txtEmailRegister"] = "";
+    $_POST["txtPasswordRegister"] = "";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -34,25 +58,31 @@
                         </div>
                         <div class="card-body" id="form-register" style="display: none;">
                             <h5 class="card-title text-center">Register</h5>
-                            <form>
+                            <form method="POST" role="form">
                                 <div class="form-label-group mb-3">
                                     <label for="txtName">Name</label>
-                                    <input type="text" id="txtName" class="form-control" placeholder="Your name" required autofocus>
+                                    <input type="text" name="txtName" id="txtName" class="form-control" placeholder="Your name" required autofocus>
                                 </div>
                                 <div class="form-label-group mb-3">
                                     <label for="txtEmailRegister">Email address</label>
-                                    <input type="email" id="txtEmailRegister" class="form-control" placeholder="Email address" required>
+                                    <input type="email" name="txtEmailRegister" id="txtEmailRegister" class="form-control" placeholder="Email address" required autocomplete>
                                 </div>
 
                                 <div class="form-label-group mb-3">
                                     <label for="txtPasswordRegister">Password</label>
-                                    <input type="password" id="txtPasswordRegister" class="form-control" placeholder="Password" required>
+                                    <input type="password" name="txtPasswordRegister" id="txtPasswordRegister" class="form-control" placeholder="Password" required autocomplete>
                                 </div>
 
                                 <button class="btn btn-primary btn-block text-uppercase" type="submit">Register</button>
                                 <button class="btn btn-info btn-block text-uppercase" type="button" onclick="$('#form-login').show();$('#form-register').hide();">Back</button>
                             </form>
                         </div>
+                    </div>
+                    <div class="alert alert-info mt-5">
+                        <?php
+                        echo $msg;
+                        $msg = "";
+                        ?>
                     </div>
                 </div>
             </div>
