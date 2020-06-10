@@ -27,13 +27,13 @@ if (!isset($_SESSION["name"])) {
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="?pag=home">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="?pag=features">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="?pag=account">Account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
@@ -45,6 +45,24 @@ if (!isset($_SESSION["name"])) {
             </form>
         </div>
     </nav>
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <?php
+            $pagQuery = filter_input(INPUT_GET, "pag", FILTER_SANITIZE_STRING);
+
+            switch ($pagQuery) {
+                case "account":
+                    require_once("Views/Account.php");
+                    break;
+                case "features":
+                    require_once("Views/Features.php");
+                    break;
+                default:
+                    require_once("Views/Home.php");
+            }
+            ?>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
