@@ -1,8 +1,17 @@
 <?php
+session_start();
 require_once("Model/User.php");
 require_once("Controller/UserController.php");
 
 $msg = "";
+
+if (filter_input(INPUT_GET, "msg", FILTER_SANITIZE_NUMBER_INT)) {
+    if (filter_input(INPUT_GET, "msg", FILTER_SANITIZE_NUMBER_INT) == 1) {
+        $msg = "You must be logged in to acces the panel!";
+    } else {
+        $msg = "Logout successfully!";
+    }
+}
 
 $userController = new UserController();
 //echo $userController->getUser("olagente@gmail.com.txt");
@@ -22,10 +31,12 @@ if (filter_input(INPUT_POST, "txtName", FILTER_SANITIZE_STRING)) {
 if (filter_input(INPUT_POST, "txtEmailLogin", FILTER_SANITIZE_STRING)) {
     $email = filter_input(INPUT_POST, "txtEmailLogin", FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST, "txtPasswordLogin", FILTER_SANITIZE_STRING);
+    $user = $userController->Authorization($email, $password);
+    if ($user != null) {
+        $_SESSION["name"] = $user->getName();
 
-    if ($userController->Authorization($email, $password) != null)
         header("Location: panel.php");
-    else
+    } else
         $msg = "Password or email don't match!";
 }
 ?>

@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["name"])) {
+    header("Location: index.php?msg=1");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
