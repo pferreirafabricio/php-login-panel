@@ -7,7 +7,8 @@
 </div>
 
 ## About 
-This project was developed to study and understand the basic concepts of authentication and sessions in PHP.
+This project was developed during the course "__[PHP 7 do Básico ao Intermediário](https://www.udemy.com/course/php-do-basico-ao-intermediario/)__" to study and understand the basic concepts of authentication and sessions in PHP.
+
 
 ## Technologies 
 This project was built with:
