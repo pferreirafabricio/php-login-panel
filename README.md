@@ -7,12 +7,12 @@
 </div>
 
 ## About 
-This project was developed during the course "__[O Guia Definitivo para Desenvolvimento de Jogos com Unity](https://www.udemy.com/course/o-guia-definitivo-para-desenvolvimento-de-jogos-com-unity/)__" to study and understand the basic concepts about the Unity.
+This project was developed during the course "__[PHP 7 do Básico ao Intermediário](https://www.udemy.com/course/php-do-basico-ao-intermediario/)__" to study and understand the basic concepts of authentication and sessions in PHP.
 
 
 ## Technologies 
 This project was built with:
-- [Unity](https://unity.com/)
+- [Bootswatch: Lux](https://bootswatch.com/lux/#top)
  
 ## Contribute
  1. Fork this repository;
